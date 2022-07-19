@@ -16,7 +16,7 @@
   \maketitle
 
   \section{Security Model}
-  Adversary \(\mathcal{A}\)를 확률적 알고리즘이라고 가정하고, 우리의 해시 함수 \(\mathcal{H}\)가 기반하는 permutation \(\mathcal{P}\)에 기반한다고 가정하자. \(\mathcal{A}\)는 \(q\)번까지 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 query가 가능하며, 같은 query를 두 번 이상 하지 않는다고 가정하자.
+  Adversary \(\mathcal{A}\)를 확률적 알고리즘이라고 가정하고, 우리의 해시 함수 \(\mathcal{H}: \{0, 1\}^* \to \{0, 1\}^n\)는 permutation \(\mathcal{P}\)에 기반한다고 가정하자. \(\mathcal{A}\)는 \(q\)번까지 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 query가 가능하며, 같은 query를 두 번 이상 하지 않는다고 가정하자.
 
   \section{Preimage Resistance Lower Bound}
   우리는 여기에서 everywhere preimage resistance에 집중할 것이다.\cite{rogaway_cryptographic_2004} Random oracle \(\mathcal{R}\)에서 다음이 성립한다.\cite{andreeva_security_2011}
