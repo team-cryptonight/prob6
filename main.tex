@@ -20,6 +20,32 @@
 \begin{document}
   \maketitle
 
+  \section{Indifferentiability Proof}
+  \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다.
+  (TODO: generalized sponge construction \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)  정의 완성)
+
+  한편, 문제에서 설명하는 해시 함수를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)라고 정의하면, 다음이 성립한다.
+
+  \begin{theorem}[두 construction의 관계]
+    \(10^*\)-padding \(\mathrm{pad10^*}\)과 \(10^*1\)-padding \(\mathrm{pad10^*1}\)을 정의할 때, 모든 bitrate \(0 \leq r_1, r_2, r_3 \leq r_\mathrm{max}\)에 대해 함수 \(I[r_1, r_2, r_\mathrm{max}], O[r_3, r_\mathrm{max}]\)가 존재하고, 다음 관계를 만족한다.
+
+    \begin{align*}
+      \mathcal{S}'[\mathcal{P}, \mathrm{pad10^*1}, r_1, r_2, r_3] = O[r_3, r_\mathrm{max}] \circ \mathcal{S}[\mathcal{P}, \mathrm{pad10^*}, r_\mathrm{max}, r_3] \circ I[r_1, r_2, r_\mathrm{max}]
+    \end{align*}
+
+    여기에서 \(f \circ g\)는 함수의 합성을 의미한다.
+  \end{theorem}
+  \begin{proof}
+    (TODO: 증명 완성)
+  \end{proof}
+
+  \begin{theorem}[Indifferentiability]
+    \(\mathcal{S}'[h, \mathrm{pad10^*1}, r_1, r_2, r_3]\)를 random oracle과 구분하는 것과 \(\mathcal{S}[h, \mathrm{pad10^*}, r_\mathrm{max}, r_3]\)를 random oracle과 구분하는 advantage는 같다.
+  \end{theorem}
+  \begin{proof}
+    (TODO: 증명 완성)
+  \end{proof}
+
   \section{Security Model}
   Adversary \(\mathcal{A}\)를 확률적 알고리즘이라고 가정하고, 우리의 해시 함수 \(\mathcal{H}: \{0, 1\}^* \to \{0, 1\}^n\)는 permutation \(\mathcal{P}\)에 기반한다고 가정하자. \(\mathcal{A}\)는 \(q\)번까지 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 query가 가능하며, 같은 query를 두 번 이상 하지 않는다고 가정하자.
 
