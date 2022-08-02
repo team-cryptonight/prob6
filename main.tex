@@ -46,28 +46,35 @@
     (TODO: 증명 완성)
   \end{proof}
 
-  \section{Security Model}
-  Adversary \(\mathcal{A}\)를 확률적 알고리즘이라고 가정하고, 우리의 해시 함수 \(\mathcal{H}: \{0, 1\}^* \to \{0, 1\}^n\)는 permutation \(\mathcal{P}\)에 기반한다고 가정하자. \(\mathcal{A}\)는 \(q\)번까지 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 query가 가능하며, 같은 query를 두 번 이상 하지 않는다고 가정하자.
-
   \section{Preimage Resistance Lower Bound}
-  우리는 여기에서 everywhere preimage resistance에 집중할 것이다.\cite{rogaway_cryptographic_2004} Random oracle \(\mathcal{R}\)에서 다음이 성립한다.\cite{andreeva_security_2011}
+  우리는 여기에서 everywhere preimage resistance에 집중할 것이다.\cite{rogaway_cryptographic_2004} 문제의 해시 함수 \(\mathcal{H}\)와 random oracle \(\mathcal{R}\)에서 다음이 성립한다.\cite{andreeva_security_2011} 여기서 \(q\)는 adversary가 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 횟수이다.
 
   \begin{align}\label{epre_adv_bound}
-    \adv^\text{epre}_\mathcal{H}(q) \leq \adv^\text{pro}_\mathcal{H}(q) + \adv^\text{epre}_\mathcal{R}(q)
+    \adv^\text{epre}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{epre}_\mathcal{R}(q)
   \end{align}
 
-  여기서 \(\adv^\text{pro}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. \(\adv^\text{epre}_\mathcal{R}=q/2^n\)이므로,
+  여기서 \(\adv^\text{indif}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. \(\adv^\text{epre}_\mathcal{R}=q/2^n, \adv^\text{indif}_\mathcal{H}(q)\leq \frac{q(q + 1)}{2^{c + 1}}\)에서 다음을 얻는다.
 
-  (나머지는 더 공부한다음에 완성하겠읍니다...)
+  \begin{align*}
+    \adv^\text{epre}_\mathcal{H}(q) \leq \frac{q}{2^n} + \frac{q(q + 1)}{2^{c + 1}}
+  \end{align*}
+
+  \(\adv^\text{pre}_\mathcal{H}(q) \leq \adv^\text{epre}_\mathcal{H}(q)\)이므로\cite{rogaway_cryptographic_2004}, preimage attack이 최소 \(\mathrm{min}\{2^{c/2}, 2^n\}\)의 접근이 필요함을 알 수 있다.
 
   \section{Collision Resistance Lower Bound}
   (\ref{epre_adv_bound})의 식과 비슷하게, 다음이 성립한다.
 
   \begin{align*}
-    \adv^\text{coll}_\mathcal{H}(q) \leq \adv^\text{pro}_\mathcal{H}(q) + \adv^\text{coll}_\mathcal{R}(q)
+    \adv^\text{coll}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{coll}_\mathcal{R}(q)
   \end{align*}
 
-  (나머지는 더 공부한다음에 완성하겠읍니다...)
+  여기에서 \(\adv^\text{coll}_\mathcal{R}(q) \leq \frac{q^2}{2^{n - 1}}\)이므로 다음을 얻는다.
+
+  \begin{align*}
+    \adv^\text{coll}_\mathcal{H}(q) \leq \frac{q^2}{2^{n - 1}} + \frac{q(q + 1)}{2^{c + 1}}
+  \end{align*}
+
+  이 결과를 이용하면 collision attack에 최소 \(\mathrm{min}\{2^{c/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
 
   \section{Second Preimage Resistance Lower Bound}
   Collision resistance는 second preimage reistance를 함의함이 증명되어 있다.\cite{rogaway_cryptographic_2004} 다르게 말하면, 다음이 성립한다.
@@ -76,5 +83,6 @@
     \adv^\text{sec}_\mathcal{H}(q) \leq \adv^\text{coll}_\mathcal{H}(q)
   \end{align*}
 
+  따라서 second preimage attack에도 최소 \(\mathrm{min}\{2^{c/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
   \printbibliography
 \end{document}
