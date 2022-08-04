@@ -33,6 +33,12 @@
     Multirate padding \(\mathrm{pad10^*1}[x]\)는 메시지의 맨 뒤에 1을 붙이고, 패딩 결과의 길이가 블록 길이 \(x\)의 배수가 되게 하는 최소 개수의 0과 한 개의 1을 붙인다.
   \end{definition}
 
+  또한, 우리의 해시 함수에서는 직접적으로 사용되지는 않지만 이후의 증명에서 사용할 \(10^*\)-padding \(\mathrm{pad10^*}[x]\)를 다음과 같이 정의한다.
+
+  \begin{definition}
+    \(10^*\)-padding \(\mathrm{pad10^*}[x]\)는 메시지의 맨 뒤에 1을 붙이고, 패딩 결과가 블록 길이 \(x\)의 배수가 되게 하는 최소 개수의 0을 덧붙인다.
+  \end{definition}
+
   \section{Indifferentiability Proof}
   \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다.
   (TODO: generalized sponge construction \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)  정의 완성)
