@@ -14,14 +14,14 @@
 
 \newcommand{\adv}{\mathbf{Adv}}
 
-\title{6번 문제 풀이}
+\title{Attack Bound 계산}
 \author{Crypto Night}
 
 \begin{document}
   \maketitle
 
   \section{Padding Scheme}
-  블록 길이 \(x\)인 패딩 함수 \(\mathrm{pad}[x]\)가 빈 문자열에 대응되지 않고, 다음을 만족시킬 때, \(\mathrm{pad}\)는 sponge-complaint하다고 한다.\cite{guido_cryptographic_2011}
+  \(x\)비트 패딩 함수 \(\mathrm{pad}[x]\)가 빈 문자열에 대응되지 않고, 다음을 만족시킬 때, \(\mathrm{pad}[x]\)는 sponge-complaint하다고 한다.\cite{guido_cryptographic_2011}
 
   \begin{align*}
     \forall n \geq 0, \forall M, M' \in \mathbb{Z}^*_2 : M \not=M' \Rightarrow M \| \mathrm{pad}[r](|M|) \not= M' \| \mathrm{pad}[r](|M'|) \| 0^{nr}
@@ -40,30 +40,19 @@
   \end{definition}
 
   \section{Indifferentiability Proof}
-  \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다.
-  (TODO: generalized sponge construction \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)  정의 완성)
+  \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다. Sponge construction의 absorbing phase와 squeezing phase에서의 birate가 모두 \(r\)로 같고 패딩 함수가 \(\mathrm{pad}\), 해시 함수가 기반하는 permutation이 \(\mathcal{P}\)일 때 이러한 해시 함수를 \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)으로 정의한다.
 
-  한편, 문제에서 설명하는 해시 함수를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)라고 정의하면, 다음이 성립한다.
+  한편, 문제에서 설명하는 해시 함수를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)라고 정의하면,\footnote{\(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r] = \mathcal{S}'[\mathcal{P}, \mathrm{pad}, r, r, r]\)이므로 \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)의 특수한 경우라고 할 수 있을 것이다.} 모든 bitrate \(0 \leq r_1, r_2, r_3 \leq r_\mathrm{max}\)에 대해 함수 \(I[r_1, r_2, r_\mathrm{max}], O[r_3, r_\mathrm{max}]\)가 존재하고, 다음 관계를 만족한다.\footnote{여기에서 \(f \circ g\)는 함수의 합성을 의미한다.}
 
-  \begin{theorem}[두 construction의 관계]
-    \(10^*\)-padding \(\mathrm{pad10^*}\)과 \(10^*1\)-padding \(\mathrm{pad10^*1}\)을 정의할 때, 모든 bitrate \(0 \leq r_1, r_2, r_3 \leq r_\mathrm{max}\)에 대해 함수 \(I[r_1, r_2, r_\mathrm{max}], O[r_3, r_\mathrm{max}]\)가 존재하고, 다음 관계를 만족한다.
+  \begin{align*}
+    \mathcal{S}'[\mathcal{P}, \mathrm{pad10^*1}, r_1, r_2, r_3] = O[r_3, r_\mathrm{max}] \circ \mathcal{S}[\mathcal{P}, \mathrm{pad10^*}, r_\mathrm{max}, r_3] \circ I[r_1, r_2, r_\mathrm{max}]
+  \end{align*}
 
-    \begin{align*}
-      \mathcal{S}'[\mathcal{P}, \mathrm{pad10^*1}, r_1, r_2, r_3] = O[r_3, r_\mathrm{max}] \circ \mathcal{S}[\mathcal{P}, \mathrm{pad10^*}, r_\mathrm{max}, r_3] \circ I[r_1, r_2, r_\mathrm{max}]
-    \end{align*}
+  이때 함수 \(I\)에 대해 \(M' = I[r_1, r_2, r_\mathrm{max}](M)\)이라고 할 때, \(I\)는 우선 \(M\)을 multirate padding으로 패딩하여 \(M_\mathrm{pad} = M \| \mathrm{pad10^*1}[r](|M|)\)을 구하고, \(M_\mathrm{pad}\)를 첫 블록은 \(r_1\), 그 뒤는 \(r_2\) 길이로 나누어 \(M'_\mathrm{pad}\)을 만든 뒤, \(Q'\)의 패딩을 \(\mathrm{pad10^*}\)에 따라 해제하여 \(M'\)을 구성한다.
 
-    여기에서 \(f \circ g\)는 함수의 합성을 의미한다.
-  \end{theorem}
-  \begin{proof}
-    (TODO: 증명 완성)
-  \end{proof}
+  함수 \(O\)는 \(\mathcal{S}[\mathcal{P}, \mathrm{pad10^*}, r_\mathrm{max}, r_3]\)의 출력을 \(r_\mathrm{max}\) 길이로 나눈 다음, 각 블록의 첫 \(r_3\)비트를 취한 다음 다시 블록들을 이어 붙이는 방식으로 출력을 계산한다.
 
-  \begin{theorem}[Indifferentiability]
-    \(\mathcal{S}'[h, \mathrm{pad10^*1}, r_1, r_2, r_3]\)를 random oracle과 구분하는 것과 \(\mathcal{S}[h, \mathrm{pad10^*}, r_\mathrm{max}, r_3]\)를 random oracle과 구분하는 advantage는 같다.
-  \end{theorem}
-  \begin{proof}
-    (TODO: 증명 완성)
-  \end{proof}
+  문제에 제시된 해시 함수 \(\mathcal{S}'[h, \mathrm{pad10^*1}, r_1, r_2, r_3]\)를 random oracle과 구분하는 공격은 \(\mathcal{S}[h, \mathrm{pad10^*}, r_\mathrm{max}, r_3]\)에 적용될 수 있고, 그 반대도 가능하기 때문에 두 해시 함수를 random oracle과 구분하는 advantage는 같다.
 
   \section{Preimage Resistance Lower Bound}
   우리는 여기에서 everywhere preimage resistance에 집중할 것이다.\cite{rogaway_cryptographic_2004} 문제의 해시 함수 \(\mathcal{H}\)와 random oracle \(\mathcal{R}\)에서 다음이 성립한다.\cite{andreeva_security_2011} 여기서 \(q\)는 adversary가 \(\mathcal{P}, \mathcal{P}^{-1}\)에 접근하는 횟수이다.
