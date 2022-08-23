@@ -61,7 +61,7 @@
     \adv^\text{epre}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{epre}_\mathcal{R}(q)
   \end{align}
 
-  여기서 \(\adv^\text{indif}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. Capacity가 \(c\)일 때, \(\adv^\text{indif}_\mathcal{H}(q)\leq \frac{q(q + 1)}{2^{c + 1}}\)임이 알려져 있다. \(\adv^\text{epre}_\mathcal{R}=q/2^n\)와 앞서 증명한 사실을 종합하면 다음을 얻는다.
+  여기서 \(\adv^\text{indif}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. Capacity가 \(c\)일 때, \(\adv^\text{indif}_\mathcal{H}(q)\leq \frac{q(q + 1)}{2^{c + 1}}\)임이 알려져 있다.\cite{bertoni_indifferentiability_2008} \(\adv^\text{epre}_\mathcal{R}=q/2^n\)와 앞서 증명한 사실을 종합하면 다음을 얻는다.
 
   \begin{align*}
     \adv^\text{epre}_\mathcal{H}(q) \leq \frac{q}{2^n} + \frac{q(q + 1)}{2^{c_\mathrm{min} + 1}}
@@ -91,6 +91,6 @@
     \adv^\text{sec}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{sec}_\mathcal{R}(q)
   \end{align*}
 
-  한편 \(\adv^\text{sec}_\mathcal{R}(q) \leq \adv^\text{coll}_\mathcal{R}(q)\)이므로, second preimage attack에도 최소 \(\mathrm{min}\{2^{c_\mathrm{min}/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
+  한편 \(\adv^\text{sec}_\mathcal{R}(q) \leq \adv^\text{coll}_\mathcal{R}(q)\)임이 알려져 있으므로, second preimage attack에도 최소 \(\mathrm{min}\{2^{c_\mathrm{min}/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
   \printbibliography
 \end{document}
