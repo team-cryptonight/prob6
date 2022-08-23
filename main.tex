@@ -3,11 +3,11 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{kotex}
-\usepackage[backend=biber]{biblatex}
+\usepackage[backend=bibtex]{biblatex}
 \usepackage{hyperref}
 
 \addbibresource{citation.bib}
-\setmainhangulfont[ItalicFont={*},ItalicFeatures={FakeSlant=.22}]{Noto Serif CJK KR}
+\setmainhangulfont[ItalicFont={*},ItalicFeatures={FakeSlant=.22}]{Noto Serif KR}
 
 \newtheorem{definition}{정의}
 \newtheorem{theorem}{정리}
@@ -40,7 +40,7 @@
   \end{definition}
 
   \section{Indifferentiability Proof}
-  \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다. Sponge construction의 absorbing phase와 squeezing phase에서의 birate가 모두 \(r\)로 같고 패딩 함수가 \(\mathrm{pad}\), 해시 함수가 기반하는 permutation이 \(\mathcal{P}\)일 때 이러한 해시 함수를 \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)으로 정의한다.
+  \(b, c, r, n \in \mathbb{N}, b = c + r\)이고, \(\mathcal{P}\)를 \(b\)-bit cryptographic permutation, \(\mathrm{pad}\)를 \(r\)비트 블록으로 변환하는 injective padding이라고 하자. Padding된 마지막 블록은 non-zero여야 한다. Sponge construction의 absorbing phase와 squeezing phase에서의 birate가 모두 \(r\)로 같고 패딩 함수가 \(\mathrm{pad}\), 해시 함수가 기반하는 permutation이 \(\mathcal{P}\)일 때 이러한 해시 함수를 \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)으로 정의한다.
 
   한편, 문제에서 설명하는 해시 함수를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)라고 정의하면,\footnote{\(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r] = \mathcal{S}'[\mathcal{P}, \mathrm{pad}, r, r, r]\)이므로 \(\mathcal{S}[\mathcal{P}, \mathrm{pad}, r]\)를 \(\mathcal{S}'[\mathcal{P}, \mathrm{pad}, r_1, r_2, r_3]\)의 특수한 경우라고 할 수 있을 것이다.} 모든 bitrate \(0 \leq r_1, r_2, r_3 \leq r_\mathrm{max}\)에 대해 함수 \(I[r_1, r_2, r_\mathrm{max}], O[r_3, r_\mathrm{max}]\)가 존재하고, 다음 관계를 만족한다.\footnote{여기에서 \(f \circ g\)는 함수의 합성을 의미한다.}
 
@@ -61,13 +61,13 @@
     \adv^\text{epre}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{epre}_\mathcal{R}(q)
   \end{align}
 
-  여기서 \(\adv^\text{indif}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. \(\adv^\text{epre}_\mathcal{R}=q/2^n, \adv^\text{indif}_\mathcal{H}(q)\leq \frac{q(q + 1)}{2^{c + 1}}\)에서 다음을 얻는다.
+  여기서 \(\adv^\text{indif}_\mathcal{R}(q)\)는 primitive \(\pi\)를 기반으로 하는 해시함수 \((\mathcal{H}, \pi)\)를 어떤 simulator \(S\)에 대해 random oracle \((\mathcal{R}, S)\)로부터 구분하는 advantage로 정의된다. Capacity가 \(c\)일 때, \(\adv^\text{indif}_\mathcal{H}(q)\leq \frac{q(q + 1)}{2^{c + 1}}\)임이 알려져 있다. \(\adv^\text{epre}_\mathcal{R}=q/2^n\)와 앞서 증명한 사실을 종합하면 다음을 얻는다.
 
   \begin{align*}
-    \adv^\text{epre}_\mathcal{H}(q) \leq \frac{q}{2^n} + \frac{q(q + 1)}{2^{c + 1}}
+    \adv^\text{epre}_\mathcal{H}(q) \leq \frac{q}{2^n} + \frac{q(q + 1)}{2^{c_\mathrm{min} + 1}}
   \end{align*}
 
-  \(\adv^\text{pre}_\mathcal{H}(q) \leq \adv^\text{epre}_\mathcal{H}(q)\)이므로\cite{rogaway_cryptographic_2004}, preimage attack이 최소 \(\mathrm{min}\{2^{c/2}, 2^n\}\)의 접근이 필요함을 알 수 있다.
+  여기서 \(c_\mathrm{min}=\mathrm{min}\{c_1, c_2, c_3\}\)이고, \(\adv^\text{pre}_\mathcal{H}(q) \leq \adv^\text{epre}_\mathcal{H}(q)\)이므로\cite{rogaway_cryptographic_2004}, preimage attack이 최소 \(\mathrm{min}\{2^{c_\mathrm{min}/2}, 2^n\}\)의 접근이 필요함을 알 수 있다.
 
   \section{Collision Resistance Lower Bound}
   (\ref{epre_adv_bound})의 식과 비슷하게, 다음이 성립한다.
@@ -79,18 +79,18 @@
   여기에서 \(\adv^\text{coll}_\mathcal{R}(q) \leq \frac{q^2}{2^{n - 1}}\)이므로 다음을 얻는다.
 
   \begin{align*}
-    \adv^\text{coll}_\mathcal{H}(q) \leq \frac{q^2}{2^{n - 1}} + \frac{q(q + 1)}{2^{c + 1}}
+    \adv^\text{coll}_\mathcal{H}(q) \leq \frac{q^2}{2^{n - 1}} + \frac{q(q + 1)}{2^{c_\mathrm{min} + 1}}
   \end{align*}
 
-  이 결과를 이용하면 collision attack에 최소 \(\mathrm{min}\{2^{c/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
+  이 결과를 이용하면 collision attack에 최소 \(\mathrm{min}\{2^{c_\mathrm{min}/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
 
   \section{Second Preimage Resistance Lower Bound}
-  Collision resistance는 second preimage reistance를 함의함이 증명되어 있다.\cite{rogaway_cryptographic_2004} 다르게 말하면, 다음이 성립한다.
+  (\ref{epre_adv_bound})의 식과 비슷하게, 다음이 성립한다.
 
   \begin{align*}
-    \adv^\text{sec}_\mathcal{H}(q) \leq \adv^\text{coll}_\mathcal{H}(q)
+    \adv^\text{sec}_\mathcal{H}(q) \leq \adv^\text{indif}_\mathcal{H}(q) + \adv^\text{sec}_\mathcal{R}(q)
   \end{align*}
 
-  따라서 second preimage attack에도 최소 \(\mathrm{min}\{2^{c/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
+  한편 \(\adv^\text{sec}_\mathcal{R}(q) \leq \adv^\text{coll}_\mathcal{R}(q)\)이므로, second preimage attack에도 최소 \(\mathrm{min}\{2^{c_\mathrm{min}/2}, 2^{n/2}\}\)의 접근이 필요함을 알 수 있다.
   \printbibliography
 \end{document}
